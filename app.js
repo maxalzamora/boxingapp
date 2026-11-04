@@ -799,6 +799,20 @@
 
   /* ---------- boot ---------- */
 
+  function registerServiceWorker() {
+    if (!("serviceWorker" in navigator)) return;
+    if (!window.isSecureContext || location.protocol === "file:") return;
+    navigator.serviceWorker.register("./sw.js").catch(() => {
+      /* offline support is optional */
+    });
+  }
+
+  if (document.readyState === "complete") {
+    registerServiceWorker();
+  } else {
+    window.addEventListener("load", registerServiceWorker);
+  }
+
   buildTimeline();
   updatePrefsUI();
   updateFullscreenUI();
