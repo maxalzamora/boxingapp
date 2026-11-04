@@ -738,6 +738,10 @@ button:focus-visible {
   background: rgba(0, 0, 0, 0.26);
 }
 
+.segmented-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
 .segmented button {
   height: 38px;
   border: 0;
@@ -874,10 +878,9 @@ button:focus-visible {
 .legend .name {
   font-size: 12.5px;
   font-weight: 600;
+  line-height: 1.25;
   color: var(--muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
 }
 
 .card-note {

@@ -15,7 +15,154 @@
   const REST_WARNING_SECONDS = 5;
   const FINAL_ROUND_WARNING_SECONDS = 30;
   const PREFS_KEY = "six-count-prefs-v1";
-  const NUMBER_WORDS = ["", "one", "two", "three", "four", "five", "six"];
+  const COPY = {
+    en: {
+      title: "Six Count — Boxing Round Timer",
+      description:
+        "Six Count is a boxing round timer that calls out punch combinations while you train. 3 rounds of 3 minutes with 30 second rests.",
+      brandSub: "Boxing round timer",
+      session: "Session",
+      sessionMeta: "3 rounds · 3:00 work · 0:30 rest",
+      sessionProgress: "Session progress",
+      workoutTimer: "Workout timer",
+      settingsPanel: "Workout settings and punch guide",
+      language: "Language",
+      languageGroup: "Interface language",
+      cadence: "Cadence",
+      combinationEvery: "Combination every",
+      combinationFrequency: "Combination frequency",
+      voiceCues: "Voice cues",
+      voiceCuesSub: "Numbers & round calls",
+      ringBell: "Ring bell",
+      ringBellSub: "Round start & end",
+      voiceUnsupported: "Voice cues aren't supported in this browser.",
+      punchNumbers: "Punch numbers",
+      punch1: "Jab",
+      punch2: "Cross",
+      punch3: "Lead hook",
+      punch4: "Rear hook",
+      punch5: "Lead uppercut",
+      punch6: "Rear uppercut",
+      punchNote: "Called at random in 2–4 punch combinations. Stay loose and reset your stance.",
+      reset: "Reset",
+      resetKey: "reset",
+      startPauseKey: "start / pause",
+      status: { idle: "Ready", running: "Live", paused: "Paused", done: "Complete" },
+      workoutComplete: "Workout complete",
+      niceWork: "Nice work — three rounds in the bag",
+      rest: "Rest",
+      nextRound: (round) => `Next: Round ${round}`,
+      lastRoundNext: "Last round next",
+      getReadyRound: (round) => `Get ready — Round ${round}`,
+      roundOf: (round, total) => `Round ${round} of ${total}`,
+      pausedSub: "Paused — take your time",
+      getReady: "Get ready",
+      finalThirtySub: "Final 30 — all in",
+      boxSub: "Box",
+      combination: "Combination",
+      sessionCombo: "Session",
+      pausedLabel: "Paused",
+      comboPlaceholder: "Your calls appear here",
+      restPlaceholder: "Breathe — next round is coming up",
+      pausedPlaceholder: "Tap resume to keep going",
+      listenPlaceholder: "Listen for the first call",
+      combinationAria: (combo) => `Combination ${combo.join(", ")}`,
+      start: "Start",
+      pause: "Pause",
+      resume: "Resume",
+      goAgain: "Go again",
+      timelineRound: (round, time) => `Round ${round} — ${time}`,
+      timelineRest: (time) => `Rest — ${time}`,
+      enterFullScreen: "Enter full screen",
+      exitFullScreen: "Exit full screen",
+      fullscreenUnsupported: "For full screen on iPhone, tap Share, then Add to Home Screen.",
+      fullscreenWakeWarning: "Full screen is on, but this browser can't keep the screen awake.",
+      fullscreenError: "Full screen couldn't start. Try again from the browser menu.",
+      voiceOn: "Voice cues on",
+      roundCall: (round) => `Round ${round}`,
+      restVoice: "Rest",
+      workoutCompleteVoice: "Workout complete",
+      restWarningVoice: "Five seconds. Get ready.",
+      finalThirtyVoice: "Final 30 seconds. All in!",
+    },
+    ca: {
+      title: "Six Count — Temporitzador de boxa",
+      description:
+        "Six Count és un temporitzador de rondes de boxa que anuncia combinacions de cops mentre entrenes. 3 rondes de 3 minuts amb descansos de 30 segons.",
+      brandSub: "Temporitzador de boxa",
+      session: "Sessió",
+      sessionMeta: "3 rondes · 3:00 treball · 0:30 descans",
+      sessionProgress: "Progrés de la sessió",
+      workoutTimer: "Temporitzador d'entrenament",
+      settingsPanel: "Ajustos de l'entrenament i guia de cops",
+      language: "Idioma",
+      languageGroup: "Idioma de la interfície",
+      cadence: "Cadència",
+      combinationEvery: "Combinació cada",
+      combinationFrequency: "Freqüència de les combinacions",
+      voiceCues: "Indicacions de veu",
+      voiceCuesSub: "Números i rondes",
+      ringBell: "Campana",
+      ringBellSub: "Inici i final de ronda",
+      voiceUnsupported: "Aquest navegador no admet indicacions de veu.",
+      punchNumbers: "Números de cop",
+      punch1: "Jab",
+      punch2: "Creuat",
+      punch3: "Ganxo davanter",
+      punch4: "Ganxo posterior",
+      punch5: "Uppercut davanter",
+      punch6: "Uppercut posterior",
+      punchNote: "Combinacions aleatòries de 2–4 cops. Mantén-te relaxat i recupera la posició.",
+      reset: "Reinicia",
+      resetKey: "reinicia",
+      startPauseKey: "inici / pausa",
+      status: { idle: "A punt", running: "En marxa", paused: "En pausa", done: "Complet" },
+      workoutComplete: "Entrenament complet",
+      niceWork: "Bona feina — tres rondes fetes",
+      rest: "Descans",
+      nextRound: (round) => `Següent: Ronda ${round}`,
+      lastRoundNext: "Última ronda",
+      getReadyRound: (round) => `Prepara't — Ronda ${round}`,
+      roundOf: (round, total) => `Ronda ${round} de ${total}`,
+      pausedSub: "En pausa — sense pressa",
+      getReady: "Prepara't",
+      finalThirtySub: "Últims 30 — a fons",
+      boxSub: "Boxa",
+      combination: "Combinació",
+      sessionCombo: "Sessió",
+      pausedLabel: "En pausa",
+      comboPlaceholder: "Les combinacions apareixeran aquí",
+      restPlaceholder: "Respira — la següent ronda s'acosta",
+      pausedPlaceholder: "Toca reprendre per continuar",
+      listenPlaceholder: "Escolta la primera combinació",
+      combinationAria: (combo) => `Combinació ${combo.join(", ")}`,
+      start: "Comença",
+      pause: "Pausa",
+      resume: "Reprèn",
+      goAgain: "Torna-hi",
+      timelineRound: (round, time) => `Ronda ${round} — ${time}`,
+      timelineRest: (time) => `Descans — ${time}`,
+      enterFullScreen: "Entra a pantalla completa",
+      exitFullScreen: "Surt de pantalla completa",
+      fullscreenUnsupported:
+        "Per a pantalla completa a l'iPhone, toca Compartir i després Afegeix a la pantalla d'inici.",
+      fullscreenWakeWarning:
+        "La pantalla completa està activa, però aquest navegador no pot mantenir la pantalla encesa.",
+      fullscreenError:
+        "No s'ha pogut iniciar la pantalla completa. Torna-ho a provar des del menú del navegador.",
+      voiceOn: "Indicacions de veu activades",
+      roundCall: (round) => `Ronda ${round}`,
+      restVoice: "Descans",
+      workoutCompleteVoice: "Entrenament complet",
+      restWarningVoice: "Cinc segons. Prepara't.",
+      finalThirtyVoice: "Últims 30 segons. A fons!",
+    },
+  };
+  const NUMBER_WORDS = {
+    en: ["", "one", "two", "three", "four", "five", "six"],
+    ca: ["", "un", "dos", "tres", "quatre", "cinc", "sis"],
+  };
+  const SPEECH_LANG = { en: "en-US", ca: "ca-ES" };
   const PUNCH_WEIGHTS = { 1: 3, 2: 3, 3: 2, 4: 2, 5: 1.4, 6: 1.4 };
 
   const starts = [];
@@ -26,6 +173,11 @@
   }
 
   const prefs = loadPrefs();
+
+  function strings() {
+    return COPY[prefs.lang] || COPY.en;
+  }
+
   const state = {
     status: "idle", // idle | running | paused | done
     index: 0,
@@ -85,8 +237,12 @@
 
   /* ---------- preferences ---------- */
 
+  function detectLanguage() {
+    return (navigator.language || "en").toLowerCase().startsWith("ca") ? "ca" : "en";
+  }
+
   function loadPrefs() {
-    const defaults = { pace: 6, voice: true, bell: true };
+    const defaults = { pace: 6, voice: true, bell: true, lang: detectLanguage() };
     try {
       const raw = localStorage.getItem(PREFS_KEY);
       if (!raw) return defaults;
@@ -95,6 +251,7 @@
         pace: [4, 6, 8].includes(saved.pace) ? saved.pace : defaults.pace,
         voice: typeof saved.voice === "boolean" ? saved.voice : defaults.voice,
         bell: typeof saved.bell === "boolean" ? saved.bell : defaults.bell,
+        lang: ["en", "ca"].includes(saved.lang) ? saved.lang : defaults.lang,
       };
     } catch {
       return defaults;
@@ -196,35 +353,51 @@
     if (cachedVoice) return cachedVoice;
     const voices = synth.getVoices();
     if (!voices.length) return null;
-    const english = voices.filter((voice) => /^en[-_]/i.test(voice.lang));
-    const preferred = [
-      /Google US English/i,
-      /Samantha/i,
-      /Aria/i,
-      /Jenny/i,
-      /Guy/i,
-      /Daniel/i,
-      /Alex/i,
-      /Microsoft .*English/i,
-      /English/i,
-    ];
-    for (const pattern of preferred) {
-      const match = english.find((voice) => pattern.test(voice.name));
+
+    const languagePattern = prefs.lang === "ca" ? /^ca(?:[-_]|$)/i : /^en(?:[-_]|$)/i;
+    const matching = voices.filter((voice) => languagePattern.test(voice.lang));
+    if (!matching.length) return null;
+
+    const preferred = {
+      en: [
+        /Google US English/i,
+        /Samantha/i,
+        /Aria/i,
+        /Jenny/i,
+        /Guy/i,
+        /Daniel/i,
+        /Alex/i,
+        /Microsoft .*English/i,
+        /English/i,
+      ],
+      ca: [
+        /Google catal/i,
+        /Google Catalan/i,
+        /Monic/i,
+        /Jordi/i,
+        /Montserrat/i,
+        /Catalan/i,
+        /Català/i,
+      ],
+    };
+
+    for (const pattern of preferred[prefs.lang] || []) {
+      const match = matching.find((voice) => pattern.test(voice.name));
       if (match) {
         cachedVoice = match;
         return match;
       }
     }
-    cachedVoice = english.find((voice) => voice.localService) || english[0] || voices[0];
+    cachedVoice = matching.find((voice) => voice.localService) || matching[0];
     return cachedVoice;
   }
 
   function utter(text, { rate = 0.95, pitch = 0.9 } = {}) {
     if (!synth) return;
     const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = SPEECH_LANG[prefs.lang] || "en-US";
     const voice = pickVoice();
     if (voice) utterance.voice = voice;
-    utterance.lang = voice ? voice.lang : "en-US";
     utterance.rate = rate;
     utterance.pitch = pitch;
     utterance.volume = 1;
@@ -319,14 +492,14 @@
       }
     }
     if (prefs.voice && synth) {
-      schedule(() => speak("Five seconds. Get ready.", { rate: 0.98, pitch: 0.98 }), 260);
+      schedule(() => speak(strings().restWarningVoice, { rate: 0.98, pitch: 0.98 }), 260);
     }
   }
 
   function cueFinalRound() {
     if (prefs.bell) playBell(2);
     if (prefs.voice && synth) {
-      schedule(() => speak("Final 30 seconds. All in!", { rate: 0.92, pitch: 0.95 }), 900);
+      schedule(() => speak(strings().finalThirtyVoice, { rate: 0.92, pitch: 0.95 }), 900);
     }
   }
 
@@ -336,6 +509,7 @@
     state.index = index;
     state.lastCombo = [];
     renderCombo();
+    const copy = strings();
 
     const phase = PHASES[index];
     if (phase.type === "round") {
@@ -343,18 +517,18 @@
       if (options.first) {
         // Spoken directly inside the Start click so mobile browsers unlock speech.
         if (synth && prefs.voice) {
-          utter(`Round ${phase.round}`, { rate: 0.95, pitch: 0.9 });
+          utter(copy.roundCall(phase.round), { rate: 0.95, pitch: 0.9 });
         }
         schedule(() => playBell(1), 1250);
       } else {
         playBell(1);
-        schedule(() => speak(`Round ${phase.round}`), 800);
+        schedule(() => speak(strings().roundCall(phase.round)), 800);
       }
     } else {
       state.nextComboAt = Infinity;
       state.restWarningPlayed = false;
       playBell(3);
-      schedule(() => speak("Rest", { rate: 0.9, pitch: 0.9 }), 1450);
+      schedule(() => speak(strings().restVoice, { rate: 0.9, pitch: 0.9 }), 1450);
     }
   }
 
@@ -382,6 +556,7 @@
     cancelSpeech();
     syncWakeLock();
     render();
+    renderCombo();
   }
 
   function resumeWorkout() {
@@ -393,6 +568,7 @@
     }
     syncWakeLock();
     render();
+    renderCombo();
   }
 
   function resetWorkout() {
@@ -421,7 +597,7 @@
     clearScheduled();
     cancelSpeech();
     playBell(3);
-    schedule(() => speak("Workout complete", { rate: 0.92, pitch: 0.9 }), 1500);
+    schedule(() => speak(strings().workoutCompleteVoice, { rate: 0.92, pitch: 0.9 }), 1500);
     syncWakeLock();
     render();
     renderCombo();
@@ -479,7 +655,7 @@
 
   function speakCombo(combo) {
     if (!prefs.voice || !synth) return;
-    const words = combo.map((punch) => NUMBER_WORDS[punch]).join(", ");
+    const words = combo.map((punch) => NUMBER_WORDS[prefs.lang][punch]).join(", ");
     speak(words, { rate: 0.92, pitch: 0.92 });
   }
 
@@ -499,6 +675,7 @@
   /* ---------- render ---------- */
 
   function render() {
+    const copy = strings();
     const done = state.status === "done";
     const phase = PHASES[state.index];
     const now = globalElapsed();
@@ -515,33 +692,33 @@
         : "false";
 
     el.statusPill.dataset.status = state.status;
-    const statusLabels = { idle: "Ready", running: "Live", paused: "Paused", done: "Complete" };
-    const statusLabel = statusLabels[state.status];
+    const statusLabel = copy.status[state.status];
     if (el.statusText.textContent !== statusLabel) el.statusText.textContent = statusLabel;
 
     let meta;
     let sub;
     if (done) {
-      meta = "Workout complete";
-      sub = "Nice work — three rounds in the bag";
+      meta = copy.workoutComplete;
+      sub = copy.niceWork;
     } else if (phase.type === "rest") {
-      meta = "Rest";
-      sub = phase.round < ROUNDS ? `Next: Round ${phase.round + 1}` : "Last round next";
+      meta = copy.rest;
+      sub =
+        phase.round < ROUNDS ? copy.nextRound(phase.round + 1) : copy.lastRoundNext;
       if (state.status === "running" && remaining <= REST_WARNING_SECONDS) {
-        sub = `Get ready — Round ${phase.round + 1}`;
+        sub = copy.getReadyRound(phase.round + 1);
       }
     } else if (state.status === "paused") {
-      meta = `Round ${phase.round} of ${ROUNDS}`;
-      sub = "Paused — take your time";
+      meta = copy.roundOf(phase.round, ROUNDS);
+      sub = copy.pausedSub;
     } else if (state.status === "idle") {
-      meta = `Round ${phase.round} of ${ROUNDS}`;
-      sub = "Get ready";
+      meta = copy.roundOf(phase.round, ROUNDS);
+      sub = copy.getReady;
     } else {
-      meta = `Round ${phase.round} of ${ROUNDS}`;
+      meta = copy.roundOf(phase.round, ROUNDS);
       sub =
         phase.round === ROUNDS && remaining <= FINAL_ROUND_WARNING_SECONDS
-          ? "Final 30 — all in"
-          : "Box";
+          ? copy.finalThirtySub
+          : copy.boxSub;
     }
     if (el.timerMeta.textContent !== meta) el.timerMeta.textContent = meta;
     if (el.timerSub.textContent !== sub) el.timerSub.textContent = sub;
@@ -579,9 +756,16 @@
   }
 
   function renderControls() {
+    const copy = strings();
     const pause = state.status === "running";
     const done = state.status === "done";
-    const label = pause ? "Pause" : state.status === "paused" ? "Resume" : done ? "Go again" : "Start";
+    const label = pause
+      ? copy.pause
+      : state.status === "paused"
+        ? copy.resume
+        : done
+          ? copy.goAgain
+          : copy.start;
 
     if (el.startLabel.textContent !== label) el.startLabel.textContent = label;
     setIconHidden(el.iconPlay, pause);
@@ -595,22 +779,23 @@
   }
 
   function renderCombo() {
+    const copy = strings();
     const phase = PHASES[state.index];
     const done = state.status === "done";
-    let label = "Combination";
-    let placeholder = "Your calls appear here";
+    let label = copy.combination;
+    let placeholder = copy.comboPlaceholder;
 
     if (done) {
-      label = "Session";
-      placeholder = "Workout complete";
+      label = copy.sessionCombo;
+      placeholder = copy.workoutComplete;
     } else if (phase.type === "rest") {
-      label = "Rest";
-      placeholder = "Breathe — next round is coming up";
+      label = copy.rest;
+      placeholder = copy.restPlaceholder;
     } else if (state.status === "paused") {
-      label = "Paused";
-      placeholder = "Tap resume to keep going";
+      label = copy.pausedLabel;
+      placeholder = copy.pausedPlaceholder;
     } else if (state.status === "running" && !state.lastCombo.length) {
-      placeholder = "Listen for the first call";
+      placeholder = copy.listenPlaceholder;
     }
 
     if (el.comboLabel.textContent !== label) el.comboLabel.textContent = label;
@@ -624,7 +809,7 @@
         chip.style.animationDelay = reducedMotion.matches ? "0ms" : `${i * 55}ms`;
         el.comboChips.append(chip);
       });
-      el.comboChips.setAttribute("aria-label", `Combination ${state.lastCombo.join(", ")}`);
+      el.comboChips.setAttribute("aria-label", copy.combinationAria(state.lastCombo));
     } else {
       const empty = document.createElement("span");
       empty.className = "combo-empty";
@@ -688,10 +873,24 @@
     document.querySelectorAll("[data-pace]").forEach((button) => {
       button.setAttribute("aria-pressed", String(Number(button.dataset.pace) === prefs.pace));
     });
+    document.querySelectorAll("[data-lang]").forEach((button) => {
+      button.setAttribute("aria-pressed", String(button.dataset.lang === prefs.lang));
+    });
     el.voiceToggle.setAttribute("aria-checked", String(Boolean(prefs.voice && synth)));
     el.voiceToggle.disabled = !synth;
     el.bellToggle.setAttribute("aria-checked", String(Boolean(prefs.bell)));
     el.voiceHint.hidden = Boolean(synth);
+  }
+
+  function updateTimelineText() {
+    const copy = strings();
+    PHASES.forEach((phase, i) => {
+      if (!segments[i]) return;
+      segments[i].node.title =
+        phase.type === "round"
+          ? copy.timelineRound(phase.round, formatTime(phase.duration))
+          : copy.timelineRest(formatTime(phase.duration));
+    });
   }
 
   function buildTimeline() {
@@ -703,10 +902,6 @@
     PHASES.forEach((phase) => {
       const node = document.createElement("div");
       node.className = `tl-seg${phase.type === "rest" ? " rest" : ""}`;
-      node.title =
-        phase.type === "round"
-          ? `Round ${phase.round} — ${formatTime(phase.duration)}`
-          : `Rest — ${formatTime(phase.duration)}`;
 
       const fill = document.createElement("span");
       fill.className = "tl-fill";
@@ -719,6 +914,8 @@
       el.timelineLabels.append(label);
       timelineLabelEls.push(label);
     });
+
+    updateTimelineText();
   }
 
   /* ---------- fullscreen ---------- */
@@ -748,25 +945,30 @@
   }
 
   function updateFullscreenUI() {
+    const copy = strings();
     const active = isFullscreen();
     const supported = fullscreenSupported();
     const standalone = isStandalone();
 
     document.body.classList.toggle("is-fullscreen", active);
     el.fullscreenBtn.setAttribute("aria-pressed", String(active));
-    el.fullscreenBtn.setAttribute("aria-label", active ? "Exit full screen" : "Enter full screen");
-    el.fullscreenBtn.title = active ? "Exit full screen" : "Enter full screen";
+    el.fullscreenBtn.setAttribute(
+      "aria-label",
+      active ? copy.exitFullScreen : copy.enterFullScreen
+    );
+    el.fullscreenBtn.title = active ? copy.exitFullScreen : copy.enterFullScreen;
     setIconHidden(el.iconExpand, active);
     setIconHidden(el.iconCompress, !active);
     el.fullscreenBtn.hidden = standalone && !supported;
 
     if (active && !("wakeLock" in navigator)) {
-      showToast("Full screen is on, but this browser can't keep the screen awake.");
+      showToast(copy.fullscreenWakeWarning);
     }
     syncWakeLock();
   }
 
   async function toggleFullscreen() {
+    const copy = strings();
     const root = document.documentElement;
     try {
       if (isFullscreen()) {
@@ -783,10 +985,58 @@
       } else if (root.webkitRequestFullscreen) {
         root.webkitRequestFullscreen();
       } else {
-        showToast("For full screen on iPhone, tap Share, then Add to Home Screen.");
+        showToast(copy.fullscreenUnsupported);
       }
     } catch {
-      showToast("Full screen couldn't start. Try again from the browser menu.");
+      showToast(copy.fullscreenError);
+    }
+  }
+
+  /* ---------- language ---------- */
+
+  function applyStaticTranslations() {
+    const copy = strings();
+    document.querySelectorAll("[data-i18n]").forEach((node) => {
+      const value = copy[node.dataset.i18n];
+      if (typeof value === "string") node.textContent = value;
+    });
+    document.querySelectorAll("[data-i18n-aria-label]").forEach((node) => {
+      const value = copy[node.dataset.i18nAriaLabel];
+      if (typeof value === "string") node.setAttribute("aria-label", value);
+    });
+  }
+
+  function applyLanguage() {
+    const copy = strings();
+    const active = isFullscreen();
+
+    document.documentElement.lang = prefs.lang;
+    document.title = copy.title;
+    const description = document.querySelector('meta[name="description"]');
+    if (description) description.setAttribute("content", copy.description);
+
+    applyStaticTranslations();
+    updateTimelineText();
+    updatePrefsUI();
+
+    el.fullscreenBtn.setAttribute(
+      "aria-label",
+      active ? copy.exitFullScreen : copy.enterFullScreen
+    );
+    el.fullscreenBtn.title = active ? copy.exitFullScreen : copy.enterFullScreen;
+  }
+
+  function setLanguage(lang) {
+    if (!["en", "ca"].includes(lang) || lang === prefs.lang) return;
+    cancelSpeech();
+    prefs.lang = lang;
+    savePrefs();
+    cachedVoice = null;
+    applyLanguage();
+    render();
+    renderCombo();
+    if (prefs.voice && synth) {
+      speak(lang === "ca" ? "Català" : "English", { rate: 0.95, pitch: 0.95 });
     }
   }
 
@@ -812,13 +1062,17 @@
     });
   });
 
+  document.querySelectorAll("[data-lang]").forEach((button) => {
+    button.addEventListener("click", () => setLanguage(button.dataset.lang));
+  });
+
   el.voiceToggle.addEventListener("click", () => {
     if (!synth) return;
     prefs.voice = !prefs.voice;
     savePrefs();
     updatePrefsUI();
     if (prefs.voice) {
-      speak("Voice cues on", { rate: 0.95, pitch: 0.9 });
+      speak(strings().voiceOn, { rate: 0.95, pitch: 0.9 });
     } else {
       cancelSpeech();
     }
@@ -896,7 +1150,7 @@
   }
 
   buildTimeline();
-  updatePrefsUI();
+  applyLanguage();
   updateFullscreenUI();
   render();
   renderCombo();

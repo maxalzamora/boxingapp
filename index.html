@@ -23,7 +23,7 @@
         <span class="brand-mark" aria-hidden="true">6</span>
         <div class="brand-text">
           <span class="brand-name">Six Count</span>
-          <span class="brand-sub">Boxing round timer</span>
+          <span class="brand-sub" data-i18n="brandSub">Boxing round timer</span>
         </div>
       </div>
       <div class="top-actions">
@@ -39,10 +39,10 @@
     </header>
 
     <main class="layout">
-      <section class="stage" id="stage" data-phase="round" data-status="idle" aria-label="Workout timer">
+      <section class="stage" id="stage" data-phase="round" data-status="idle" aria-label="Workout timer" data-i18n-aria-label="workoutTimer">
         <div class="stage-head">
-          <span class="eyebrow">Session</span>
-          <span class="stage-head-meta">3 rounds &middot; 3:00 work &middot; 0:30 rest</span>
+          <span class="eyebrow" data-i18n="session">Session</span>
+          <span class="stage-head-meta" data-i18n="sessionMeta">3 rounds &middot; 3:00 work &middot; 0:30 rest</span>
         </div>
 
         <div class="timer-wrap">
@@ -74,15 +74,15 @@
             <svg class="icon icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><rect x="7" y="5" width="3.4" height="14" rx="1.2" fill="currentColor"/><rect x="13.6" y="5" width="3.4" height="14" rx="1.2" fill="currentColor"/></svg>
             <span id="startLabel">Start</span>
           </button>
-          <button class="btn btn-ghost" id="resetBtn" type="button" disabled>
+          <button class="btn btn-ghost" id="resetBtn" type="button" disabled aria-label="Reset" data-i18n-aria-label="reset">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4.5V10h-5.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span>Reset</span>
+            <span data-i18n="reset">Reset</span>
           </button>
         </div>
 
         <div class="timeline">
           <div class="timeline-head">
-            <span class="eyebrow">Session progress</span>
+            <span class="eyebrow" data-i18n="sessionProgress">Session progress</span>
             <span class="timeline-total" id="timelineTotal">10:00</span>
           </div>
           <div class="timeline-track" id="timelineTrack"></div>
@@ -90,12 +90,12 @@
         </div>
       </section>
 
-      <aside class="panel" aria-label="Workout settings and punch guide">
+      <aside class="panel" aria-label="Workout settings and punch guide" data-i18n-aria-label="settingsPanel">
         <section class="card">
-          <h2>Cadence</h2>
+          <h2 data-i18n="cadence">Cadence</h2>
           <div class="field">
-            <div class="field-label"><span>Combination every</span><span id="paceValue">6s</span></div>
-            <div class="segmented" role="group" aria-label="Combination frequency">
+            <div class="field-label"><span data-i18n="combinationEvery">Combination every</span><span id="paceValue">6s</span></div>
+            <div class="segmented" role="group" aria-label="Combination frequency" data-i18n-aria-label="combinationFrequency">
               <button type="button" data-pace="4" aria-pressed="false">4s</button>
               <button type="button" data-pace="6" aria-pressed="true">6s</button>
               <button type="button" data-pace="8" aria-pressed="false">8s</button>
@@ -103,35 +103,43 @@
           </div>
           <div class="toggles">
             <button class="toggle" id="voiceToggle" type="button" role="switch" aria-checked="true">
-              <span class="toggle-text"><span>Voice cues</span><small>Numbers &amp; round calls</small></span>
+              <span class="toggle-text"><span data-i18n="voiceCues">Voice cues</span><small data-i18n="voiceCuesSub">Numbers &amp; round calls</small></span>
               <span class="switch" aria-hidden="true"></span>
             </button>
             <button class="toggle" id="bellToggle" type="button" role="switch" aria-checked="true">
-              <span class="toggle-text"><span>Ring bell</span><small>Round start &amp; end</small></span>
+              <span class="toggle-text"><span data-i18n="ringBell">Ring bell</span><small data-i18n="ringBellSub">Round start &amp; end</small></span>
               <span class="switch" aria-hidden="true"></span>
             </button>
           </div>
-          <p class="hint" id="voiceHint" hidden>Voice cues aren&rsquo;t supported in this browser.</p>
+          <p class="hint" id="voiceHint" data-i18n="voiceUnsupported" hidden>Voice cues aren&rsquo;t supported in this browser.</p>
         </section>
 
         <section class="card">
-          <h2>Punch numbers</h2>
+          <h2 data-i18n="language">Language</h2>
+          <div class="segmented segmented-2" role="group" aria-label="Language" data-i18n-aria-label="languageGroup">
+            <button type="button" data-lang="en" aria-pressed="true" lang="en">English</button>
+            <button type="button" data-lang="ca" aria-pressed="false" lang="ca">Català</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2 data-i18n="punchNumbers">Punch numbers</h2>
           <ul class="legend">
-            <li><span class="num">1</span><span class="name">Jab</span></li>
-            <li><span class="num">2</span><span class="name">Cross</span></li>
-            <li><span class="num">3</span><span class="name">Lead hook</span></li>
-            <li><span class="num">4</span><span class="name">Rear hook</span></li>
-            <li><span class="num">5</span><span class="name">Lead uppercut</span></li>
-            <li><span class="num">6</span><span class="name">Rear uppercut</span></li>
+            <li><span class="num">1</span><span class="name" data-i18n="punch1">Jab</span></li>
+            <li><span class="num">2</span><span class="name" data-i18n="punch2">Cross</span></li>
+            <li><span class="num">3</span><span class="name" data-i18n="punch3">Lead hook</span></li>
+            <li><span class="num">4</span><span class="name" data-i18n="punch4">Rear hook</span></li>
+            <li><span class="num">5</span><span class="name" data-i18n="punch5">Lead uppercut</span></li>
+            <li><span class="num">6</span><span class="name" data-i18n="punch6">Rear uppercut</span></li>
           </ul>
-          <p class="card-note">Called at random in 2&ndash;4 punch combinations. Stay loose and reset your stance.</p>
+          <p class="card-note" data-i18n="punchNote">Called at random in 2&ndash;4 punch combinations. Stay loose and reset your stance.</p>
         </section>
       </aside>
     </main>
 
     <footer class="footer">
-      <span>3 rounds &middot; 3:00 work &middot; 0:30 rest</span>
-      <span class="keys"><kbd>Space</kbd> start / pause <kbd>R</kbd> reset</span>
+      <span data-i18n="sessionMeta">3 rounds &middot; 3:00 work &middot; 0:30 rest</span>
+      <span class="keys"><kbd>Space</kbd> <span data-i18n="startPauseKey">start / pause</span> <kbd>R</kbd> <span data-i18n="resetKey">reset</span></span>
     </footer>
   </div>
 
