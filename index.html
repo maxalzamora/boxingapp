@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#08080a">
+  <meta name="description" content="Six Count is a boxing round timer that calls out punch combinations while you train. 3 rounds of 3 minutes with 30 second rests.">
+  <title>Six Count — Boxing Round Timer</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23ff3b30'/%3E%3Ctext x='32' y='47' font-family='Arial,Helvetica,sans-serif' font-size='42' font-weight='900' fill='white' text-anchor='middle'%3E6%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">6</span>
+        <div class="brand-text">
+          <span class="brand-name">Six Count</span>
+          <span class="brand-sub">Boxing round timer</span>
+        </div>
+      </div>
+      <div class="status-pill" id="statusPill" data-status="idle" role="status" aria-live="polite">
+        <span class="dot" aria-hidden="true"></span>
+        <span id="statusText">Ready</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="stage" id="stage" data-phase="round" data-status="idle" aria-label="Workout timer">
+        <div class="stage-head">
+          <span class="eyebrow">Session</span>
+          <span class="stage-head-meta">3 rounds &middot; 3:00 work &middot; 0:30 rest</span>
+        </div>
+
+        <div class="timer-wrap">
+          <svg class="ring" viewBox="0 0 320 320" aria-hidden="true">
+            <circle class="ring-track" cx="160" cy="160" r="137"></circle>
+            <circle class="ring-inner" cx="160" cy="160" r="116"></circle>
+            <circle class="ring-progress" id="ringProgress" cx="160" cy="160" r="137" pathLength="100"></circle>
+          </svg>
+          <div class="timer-inner">
+            <span class="timer-meta" id="timerMeta">Round 1 of 3</span>
+            <span class="timer-time" id="timerTime" role="timer" aria-live="off">3:00</span>
+            <span class="timer-sub" id="timerSub">Get ready</span>
+          </div>
+        </div>
+
+        <div class="combo">
+          <div class="combo-label">
+            <span class="combo-live" aria-hidden="true"></span>
+            <span id="comboLabel">Combination</span>
+          </div>
+          <div class="combo-chips" id="comboChips" aria-live="polite" aria-atomic="true">
+            <span class="combo-empty">Your calls appear here</span>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="btn btn-primary" id="startBtn" type="button">
+            <svg class="icon icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.4v13.2L19 12 8 5.4Z" fill="currentColor"/></svg>
+            <svg class="icon icon-pause" viewBox="0 0 24 24" aria-hidden="true" hidden><rect x="7" y="5" width="3.4" height="14" rx="1.2" fill="currentColor"/><rect x="13.6" y="5" width="3.4" height="14" rx="1.2" fill="currentColor"/></svg>
+            <span id="startLabel">Start</span>
+          </button>
+          <button class="btn btn-ghost" id="resetBtn" type="button" disabled>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4.5V10h-5.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Reset</span>
+          </button>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-head">
+            <span class="eyebrow">Session progress</span>
+            <span class="timeline-total" id="timelineTotal">10:00</span>
+          </div>
+          <div class="timeline-track" id="timelineTrack"></div>
+          <div class="timeline-labels" id="timelineLabels" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <aside class="panel" aria-label="Workout settings and punch guide">
+        <section class="card">
+          <h2>Cadence</h2>
+          <div class="field">
+            <div class="field-label"><span>Combination every</span><span id="paceValue">6s</span></div>
+            <div class="segmented" role="group" aria-label="Combination frequency">
+              <button type="button" data-pace="4" aria-pressed="false">4s</button>
+              <button type="button" data-pace="6" aria-pressed="true">6s</button>
+              <button type="button" data-pace="8" aria-pressed="false">8s</button>
+            </div>
+          </div>
+          <div class="toggles">
+            <button class="toggle" id="voiceToggle" type="button" role="switch" aria-checked="true">
+              <span class="toggle-text"><span>Voice cues</span><small>Numbers &amp; round calls</small></span>
+              <span class="switch" aria-hidden="true"></span>
+            </button>
+            <button class="toggle" id="bellToggle" type="button" role="switch" aria-checked="true">
+              <span class="toggle-text"><span>Ring bell</span><small>Round start &amp; end</small></span>
+              <span class="switch" aria-hidden="true"></span>
+            </button>
+          </div>
+          <p class="hint" id="voiceHint" hidden>Voice cues aren&rsquo;t supported in this browser.</p>
+        </section>
+
+        <section class="card">
+          <h2>Punch numbers</h2>
+          <ul class="legend">
+            <li><span class="num">1</span><span class="name">Jab</span></li>
+            <li><span class="num">2</span><span class="name">Cross</span></li>
+            <li><span class="num">3</span><span class="name">Lead hook</span></li>
+            <li><span class="num">4</span><span class="name">Rear hook</span></li>
+            <li><span class="num">5</span><span class="name">Lead uppercut</span></li>
+            <li><span class="num">6</span><span class="name">Rear uppercut</span></li>
+          </ul>
+          <p class="card-note">Called at random in 2&ndash;4 punch combinations. Stay loose and reset your stance.</p>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <span>3 rounds &middot; 3:00 work &middot; 0:30 rest</span>
+      <span class="keys"><kbd>Space</kbd> start / pause <kbd>R</kbd> reset</span>
+    </footer>
+  </div>
+
+  <script src="app.js" defer></script>
+  <noscript>
+    <p class="noscript">Six Count needs JavaScript for the timer and voice calls. Enable it, then reload.</p>
+  </noscript>
+</body>
+</html>
