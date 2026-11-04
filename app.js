@@ -140,6 +140,11 @@
     return `${minutes}:${String(whole % 60).padStart(2, "0")}`;
   }
 
+  function setIconHidden(icon, hidden) {
+    // SVG elements do not reliably reflect the `hidden` IDL property to an attribute.
+    icon.toggleAttribute("hidden", hidden);
+  }
+
   /* ---------- combo generation ---------- */
 
   function weightedPunch(exclude) {
@@ -507,8 +512,8 @@
     const label = pause ? "Pause" : state.status === "paused" ? "Resume" : done ? "Go again" : "Start";
 
     if (el.startLabel.textContent !== label) el.startLabel.textContent = label;
-    el.iconPlay.hidden = pause;
-    el.iconPause.hidden = !pause;
+    setIconHidden(el.iconPlay, pause);
+    setIconHidden(el.iconPause, !pause);
     el.startBtn.classList.toggle("is-pause", pause);
     el.startBtn.classList.toggle("is-done", done);
     el.startBtn.setAttribute("aria-label", label);
@@ -679,8 +684,8 @@
     el.fullscreenBtn.setAttribute("aria-pressed", String(active));
     el.fullscreenBtn.setAttribute("aria-label", active ? "Exit full screen" : "Enter full screen");
     el.fullscreenBtn.title = active ? "Exit full screen" : "Enter full screen";
-    el.iconExpand.hidden = active;
-    el.iconCompress.hidden = !active;
+    setIconHidden(el.iconExpand, active);
+    setIconHidden(el.iconCompress, !active);
     el.fullscreenBtn.hidden = standalone && !supported;
 
     if (active && !("wakeLock" in navigator)) {
