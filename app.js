@@ -68,6 +68,7 @@
   let audioCtx = null;
   let masterGain = null;
   let wakeLock = null;
+  let wakeLockPending = false;
   let toastTimer = 0;
 
   const synth = "speechSynthesis" in window ? window.speechSynthesis : null;
@@ -565,19 +566,23 @@
   async function requestWakeLock() {
     if (!("wakeLock" in navigator)) return;
     if (!shouldKeepAwake()) return;
-    if (document.visibilityState !== "visible" || wakeLock) return;
+    if (document.visibilityState !== "visible" || wakeLock || wakeLockPending) return;
+
+    wakeLockPending = true;
     try {
       const lock = await navigator.wakeLock.request("screen");
-      if (!shouldKeepAwake()) {
+      if (!shouldKeepAwake() || document.visibilityState !== "visible") {
         lock.release().catch(() => {});
         return;
       }
       wakeLock = lock;
-      wakeLock.addEventListener("release", () => {
-        wakeLock = null;
+      lock.addEventListener("release", () => {
+        if (wakeLock === lock) wakeLock = null;
       });
     } catch {
       wakeLock = null;
+    } finally {
+      wakeLockPending = false;
     }
   }
 
