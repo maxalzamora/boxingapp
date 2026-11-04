@@ -12,6 +12,8 @@
   const ROUNDS = 3;
   const TICK_MS = 100;
   const FIRST_COMBO_DELAY = 2.8;
+  const REST_WARNING_SECONDS = 5;
+  const FINAL_ROUND_WARNING_SECONDS = 30;
   const PREFS_KEY = "six-count-prefs-v1";
   const NUMBER_WORDS = ["", "one", "two", "three", "four", "five", "six"];
   const PUNCH_WEIGHTS = { 1: 3, 2: 3, 3: 2, 4: 2, 5: 1.4, 6: 1.4 };
@@ -31,6 +33,8 @@
     startedAt: 0,
     nextComboAt: Infinity,
     lastCombo: [],
+    restWarningPlayed: false,
+    finalRoundWarningPlayed: false,
   };
 
   const el = {
@@ -291,6 +295,41 @@
     }
   }
 
+  function playTone(freq, when, duration, amount) {
+    if (!audioCtx || !masterGain) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(freq, when);
+    gain.gain.setValueAtTime(0.0001, when);
+    gain.gain.exponentialRampToValueAtTime(amount, when + 0.008);
+    gain.gain.exponentialRampToValueAtTime(0.0001, when + duration);
+    osc.connect(gain).connect(masterGain);
+    osc.start(when);
+    osc.stop(when + duration + 0.02);
+  }
+
+  function cueRestWarning() {
+    if (prefs.bell) {
+      ensureAudio();
+      if (audioCtx && masterGain) {
+        const now = audioCtx.currentTime + 0.03;
+        playTone(880, now, 0.11, 0.14);
+        playTone(1174.66, now + 0.16, 0.16, 0.12);
+      }
+    }
+    if (prefs.voice && synth) {
+      schedule(() => speak("Five seconds. Get ready.", { rate: 0.98, pitch: 0.98 }), 260);
+    }
+  }
+
+  function cueFinalRound() {
+    if (prefs.bell) playBell(2);
+    if (prefs.voice && synth) {
+      schedule(() => speak("Final 30 seconds. All in!", { rate: 0.92, pitch: 0.95 }), 900);
+    }
+  }
+
   /* ---------- workout flow ---------- */
 
   function beginPhase(index, options = {}) {
@@ -313,6 +352,7 @@
       }
     } else {
       state.nextComboAt = Infinity;
+      state.restWarningPlayed = false;
       playBell(3);
       schedule(() => speak("Rest", { rate: 0.9, pitch: 0.9 }), 1450);
     }
@@ -327,6 +367,8 @@
     state.startedAt = performance.now();
     state.nextComboAt = Infinity;
     state.lastCombo = [];
+    state.restWarningPlayed = false;
+    state.finalRoundWarningPlayed = false;
     beginPhase(0, { first: true });
     syncWakeLock();
     render();
@@ -362,6 +404,8 @@
     state.startedAt = 0;
     state.nextComboAt = Infinity;
     state.lastCombo = [];
+    state.restWarningPlayed = false;
+    state.finalRoundWarningPlayed = false;
     syncWakeLock();
     render();
     renderCombo();
@@ -392,7 +436,29 @@
     }
     const index = phaseIndexAt(now);
     if (index !== state.index) beginPhase(index);
-    if (PHASES[state.index].type === "round") maybeCallCombo(now);
+    const phase = PHASES[state.index];
+    const remaining = starts[state.index] + phase.duration - now;
+
+    if (
+      phase.type === "rest" &&
+      remaining <= REST_WARNING_SECONDS &&
+      !state.restWarningPlayed
+    ) {
+      state.restWarningPlayed = true;
+      cueRestWarning();
+    }
+
+    if (
+      phase.type === "round" &&
+      state.index === PHASES.length - 1 &&
+      remaining <= FINAL_ROUND_WARNING_SECONDS &&
+      !state.finalRoundWarningPlayed
+    ) {
+      state.finalRoundWarningPlayed = true;
+      cueFinalRound();
+    }
+
+    if (phase.type === "round") maybeCallCombo(now);
     render();
   }
 
@@ -461,6 +527,9 @@
     } else if (phase.type === "rest") {
       meta = "Rest";
       sub = phase.round < ROUNDS ? `Next: Round ${phase.round + 1}` : "Last round next";
+      if (state.status === "running" && remaining <= REST_WARNING_SECONDS) {
+        sub = `Get ready — Round ${phase.round + 1}`;
+      }
     } else if (state.status === "paused") {
       meta = `Round ${phase.round} of ${ROUNDS}`;
       sub = "Paused — take your time";
@@ -469,7 +538,10 @@
       sub = "Get ready";
     } else {
       meta = `Round ${phase.round} of ${ROUNDS}`;
-      sub = "Box";
+      sub =
+        phase.round === ROUNDS && remaining <= FINAL_ROUND_WARNING_SECONDS
+          ? "Final 30 — all in"
+          : "Box";
     }
     if (el.timerMeta.textContent !== meta) el.timerMeta.textContent = meta;
     if (el.timerSub.textContent !== sub) el.timerSub.textContent = sub;
