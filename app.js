@@ -322,7 +322,7 @@
     state.nextComboAt = Infinity;
     state.lastCombo = [];
     beginPhase(0, { first: true });
-    requestWakeLock();
+    syncWakeLock();
     render();
   }
 
@@ -332,7 +332,7 @@
     state.status = "paused";
     clearScheduled();
     cancelSpeech();
-    releaseWakeLock();
+    syncWakeLock();
     render();
   }
 
@@ -343,20 +343,20 @@
     if (PHASES[state.index].type === "round") {
       state.nextComboAt = Math.max(state.nextComboAt, globalElapsed() + 1.2);
     }
-    requestWakeLock();
+    syncWakeLock();
     render();
   }
 
   function resetWorkout() {
     clearScheduled();
     cancelSpeech();
-    releaseWakeLock();
     state.status = "idle";
     state.index = 0;
     state.elapsed = 0;
     state.startedAt = 0;
     state.nextComboAt = Infinity;
     state.lastCombo = [];
+    syncWakeLock();
     render();
     renderCombo();
   }
@@ -372,7 +372,7 @@
     cancelSpeech();
     playBell(3);
     schedule(() => speak("Workout complete", { rate: 0.92, pitch: 0.9 }), 1500);
-    releaseWakeLock();
+    syncWakeLock();
     render();
     renderCombo();
   }
@@ -558,13 +558,17 @@
 
   /* ---------- wake lock ---------- */
 
+  function shouldKeepAwake() {
+    return state.status === "running" || isFullscreen() || isStandalone();
+  }
+
   async function requestWakeLock() {
     if (!("wakeLock" in navigator)) return;
-    if (state.status !== "running") return;
+    if (!shouldKeepAwake()) return;
     if (document.visibilityState !== "visible" || wakeLock) return;
     try {
       const lock = await navigator.wakeLock.request("screen");
-      if (state.status !== "running") {
+      if (!shouldKeepAwake()) {
         lock.release().catch(() => {});
         return;
       }
@@ -574,6 +578,14 @@
       });
     } catch {
       wakeLock = null;
+    }
+  }
+
+  async function syncWakeLock() {
+    if (shouldKeepAwake()) {
+      await requestWakeLock();
+    } else {
+      releaseWakeLock();
     }
   }
 
@@ -665,6 +677,11 @@
     el.iconExpand.hidden = active;
     el.iconCompress.hidden = !active;
     el.fullscreenBtn.hidden = standalone && !supported;
+
+    if (active && !("wakeLock" in navigator)) {
+      showToast("Full screen is on, but this browser can't keep the screen awake.");
+    }
+    syncWakeLock();
   }
 
   async function toggleFullscreen() {
@@ -747,10 +764,21 @@
   });
 
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible" && state.status === "running") {
-      requestWakeLock();
+    if (document.visibilityState === "visible") {
+      syncWakeLock();
+    } else {
+      // Browsers drop the screen lock when the page is hidden.
+      wakeLock = null;
     }
   });
+
+  document.addEventListener(
+    "pointerdown",
+    () => {
+      if (shouldKeepAwake() && !wakeLock) requestWakeLock();
+    },
+    { passive: true }
+  );
 
   if (synth) {
     const refreshVoices = () => {
