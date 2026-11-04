@@ -29,6 +29,10 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
 }
@@ -46,6 +50,7 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  overscroll-behavior: none;
 }
 
 body::before {
@@ -74,7 +79,11 @@ button:focus-visible {
   width: 100%;
   max-width: 1080px;
   margin: 0 auto;
-  padding: clamp(18px, 4vw, 40px) clamp(16px, 4vw, 32px) 28px;
+  padding:
+    max(clamp(18px, 4vw, 40px), env(safe-area-inset-top))
+    max(clamp(16px, 4vw, 32px), env(safe-area-inset-right))
+    max(28px, env(safe-area-inset-bottom))
+    max(clamp(16px, 4vw, 32px), env(safe-area-inset-left));
 }
 
 /* ---------- header ---------- */
@@ -188,6 +197,57 @@ button:focus-visible {
 
 .status-pill[data-status="done"] .dot {
   background: var(--rest);
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+.icon-btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--muted);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.14s;
+}
+
+.icon-btn::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: inherit;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.075);
+  color: var(--text);
+}
+
+.icon-btn:active {
+  transform: scale(0.94);
+}
+
+.icon-btn .icon {
+  width: 17px;
+  height: 17px;
+}
+
+.icon-btn[aria-pressed="true"] {
+  color: var(--accent-strong);
+  border-color: rgba(255, 59, 48, 0.28);
+  background: rgba(255, 59, 48, 0.08);
 }
 
 @keyframes livePulse {
@@ -880,6 +940,37 @@ kbd {
   text-align: center;
 }
 
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  z-index: 40;
+  width: max-content;
+  max-width: min(92vw, 420px);
+  padding: 12px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background: rgba(23, 23, 27, 0.96);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+  color: var(--text);
+  font-size: 12.5px;
+  line-height: 1.45;
+  text-align: center;
+  opacity: 0;
+  transform: translate(-50%, 10px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+:root:fullscreen {
+  background: var(--bg);
+}
+
 /* ---------- responsive ---------- */
 
 @media (max-width: 900px) {
@@ -896,7 +987,11 @@ kbd {
 
 @media (max-width: 640px) {
   .app {
-    padding: 16px 14px 24px;
+    padding:
+      max(16px, env(safe-area-inset-top))
+      max(14px, env(safe-area-inset-right))
+      max(24px, env(safe-area-inset-bottom))
+      max(14px, env(safe-area-inset-left));
   }
 
   .topbar {
@@ -922,6 +1017,12 @@ kbd {
     height: 30px;
     padding: 0 10px;
     font-size: 9px;
+  }
+
+  .icon-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
   }
 
   .stage {
@@ -988,6 +1089,27 @@ kbd {
 }
 
 @media (max-width: 380px) {
+  .topbar {
+    gap: 10px;
+  }
+
+  .top-actions {
+    gap: 6px;
+  }
+
+  .status-pill {
+    height: 28px;
+    padding: 0 8px;
+    font-size: 8px;
+    letter-spacing: 0.12em;
+  }
+
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+  }
+
   .btn-ghost span {
     display: none;
   }

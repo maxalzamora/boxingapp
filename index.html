@@ -19,9 +19,15 @@
           <span class="brand-sub">Boxing round timer</span>
         </div>
       </div>
-      <div class="status-pill" id="statusPill" data-status="idle" role="status" aria-live="polite">
-        <span class="dot" aria-hidden="true"></span>
-        <span id="statusText">Ready</span>
+      <div class="top-actions">
+        <div class="status-pill" id="statusPill" data-status="idle" role="status" aria-live="polite">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="statusText">Ready</span>
+        </div>
+        <button class="icon-btn" id="fullscreenBtn" type="button" aria-label="Enter full screen" title="Enter full screen">
+          <svg class="icon icon-expand" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M20 15v5h-5M4 15v5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="icon icon-compress" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M4 9h5V4M20 9h-5V4M15 20v-5h5M9 20v-5H4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
       </div>
     </header>
 
@@ -121,6 +127,8 @@
       <span class="keys"><kbd>Space</kbd> start / pause <kbd>R</kbd> reset</span>
     </footer>
   </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="app.js" defer></script>
   <noscript>

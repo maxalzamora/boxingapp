@@ -48,6 +48,10 @@
     iconPlay: document.querySelector(".icon-play"),
     iconPause: document.querySelector(".icon-pause"),
     resetBtn: document.getElementById("resetBtn"),
+    fullscreenBtn: document.getElementById("fullscreenBtn"),
+    iconExpand: document.querySelector(".icon-expand"),
+    iconCompress: document.querySelector(".icon-compress"),
+    toast: document.getElementById("toast"),
     voiceToggle: document.getElementById("voiceToggle"),
     bellToggle: document.getElementById("bellToggle"),
     voiceHint: document.getElementById("voiceHint"),
@@ -64,11 +68,15 @@
   let audioCtx = null;
   let masterGain = null;
   let wakeLock = null;
+  let toastTimer = 0;
 
   const synth = "speechSynthesis" in window ? window.speechSynthesis : null;
   const reducedMotion = window.matchMedia
     ? window.matchMedia("(prefers-reduced-motion: reduce)")
     : { matches: false };
+  const standaloneQuery = window.matchMedia
+    ? window.matchMedia("(display-mode: standalone)")
+    : null;
 
   /* ---------- preferences ---------- */
 
@@ -619,10 +627,77 @@
     });
   }
 
+  /* ---------- fullscreen ---------- */
+
+  function fullscreenSupported() {
+    const root = document.documentElement;
+    return Boolean(root.requestFullscreen || root.webkitRequestFullscreen);
+  }
+
+  function isFullscreen() {
+    return Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+  }
+
+  function isStandalone() {
+    return Boolean(
+      (standaloneQuery && standaloneQuery.matches) || window.navigator.standalone === true
+    );
+  }
+
+  function showToast(message) {
+    window.clearTimeout(toastTimer);
+    el.toast.textContent = message;
+    el.toast.classList.add("is-visible");
+    toastTimer = window.setTimeout(() => {
+      el.toast.classList.remove("is-visible");
+    }, 4500);
+  }
+
+  function updateFullscreenUI() {
+    const active = isFullscreen();
+    const supported = fullscreenSupported();
+    const standalone = isStandalone();
+
+    document.body.classList.toggle("is-fullscreen", active);
+    el.fullscreenBtn.setAttribute("aria-pressed", String(active));
+    el.fullscreenBtn.setAttribute("aria-label", active ? "Exit full screen" : "Enter full screen");
+    el.fullscreenBtn.title = active ? "Exit full screen" : "Enter full screen";
+    el.iconExpand.hidden = active;
+    el.iconCompress.hidden = !active;
+    el.fullscreenBtn.hidden = standalone && !supported;
+  }
+
+  async function toggleFullscreen() {
+    const root = document.documentElement;
+    try {
+      if (isFullscreen()) {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+        return;
+      }
+
+      if (root.requestFullscreen) {
+        await root.requestFullscreen({ navigationUI: "hide" });
+      } else if (root.webkitRequestFullscreen) {
+        root.webkitRequestFullscreen();
+      } else {
+        showToast("For full screen on iPhone, tap Share, then Add to Home Screen.");
+      }
+    } catch {
+      showToast("Full screen couldn't start. Try again from the browser menu.");
+    }
+  }
+
   /* ---------- events ---------- */
 
   el.startBtn.addEventListener("click", handlePrimary);
   el.resetBtn.addEventListener("click", resetWorkout);
+  el.fullscreenBtn.addEventListener("click", toggleFullscreen);
+  document.addEventListener("fullscreenchange", updateFullscreenUI);
+  document.addEventListener("webkitfullscreenchange", updateFullscreenUI);
 
   document.querySelectorAll("[data-pace]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -690,10 +765,15 @@
     pickVoice();
   }
 
+  if (standaloneQuery && typeof standaloneQuery.addEventListener === "function") {
+    standaloneQuery.addEventListener("change", updateFullscreenUI);
+  }
+
   /* ---------- boot ---------- */
 
   buildTimeline();
   updatePrefsUI();
+  updateFullscreenUI();
   render();
   renderCombo();
   window.setInterval(tick, TICK_MS);
