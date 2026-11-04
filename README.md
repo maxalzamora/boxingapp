@@ -7,9 +7,15 @@ A small boxing round timer that calls punch combinations out loud while you trai
 - 3 rounds of **3:00** work
 - **0:30** rest between rounds
 - Voice calls **"Round 1"**, random 2–4 punch combinations during the round, **"Rest"**, and **"Workout complete"** at the end
+- A two-note warning and a five-second **"get ready"** call sound before each new round
+- A double bell and a final-30-seconds **"all in"** call mark the last 30 seconds of round 3
 - Punch numbers: **1** jab, **2** cross, **3** lead hook, **4** rear hook, **5** lead uppercut, **6** rear uppercut
 
-Combinations are called every **6 seconds** by default. Use the 4s / 6s / 8s buttons to change the cadence. Voice cues and the ring bell can be toggled separately. Settings are saved in `localStorage`.
+Combinations are called every **6 seconds** by default. Use the 4s / 6s / 8s buttons to change the cadence. Voice cues and the ring bell can be toggled separately. Settings, including the selected language, are saved in `localStorage`.
+
+## Language
+
+Use the **Language** card to switch between **English** and **Català**. The interface, ARIA labels, and spoken round calls follow the selected language. The default is based on the browser language, and the choice is remembered.
 
 ## Run it
 
@@ -46,7 +52,7 @@ Then visit <http://localhost:8000>. Serving over HTTP or HTTPS is recommended so
 - `sw.js` — offline cache
 - `icons/` — app and home-screen icons
 
-Speech uses the browser's **Web Speech API** (`speechSynthesis`), so the voice depends on the voices installed on your device. The bell is synthesized with the **Web Audio API**; there are no audio files or network requests.
+Speech uses the browser's **Web Speech API** (`speechSynthesis`), so the voice depends on the voices installed on your device. If the selected language has no matching system voice, the browser falls back to its default voice. The bell is synthesized with the **Web Audio API**; there are no audio files or network requests.
 
 The workout is defined by the `PHASES` array at the top of `app.js`. Change the `duration` values there (in seconds) to alter the round and rest lengths; the timer, progress bar, and total automatically follow.
 
