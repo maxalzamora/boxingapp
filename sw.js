@@ -1,5 +1,5 @@
 /* Six Count service worker — bump CACHE_NAME when cached assets change. */
-const CACHE_NAME = "six-count-v2";
+const CACHE_NAME = "six-count-v3";
 const ASSETS = [
   "./",
   "./index.html",
