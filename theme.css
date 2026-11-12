@@ -23,13 +23,6 @@ html[data-theme] .card {
   border-color: var(--line);
 }
 
-html[data-theme] .brand-mark {
-  color: var(--brand-contrast, #fff);
-  background: linear-gradient(160deg, var(--accent-strong), var(--accent) 72%);
-  border-color: var(--line-strong);
-  box-shadow: 0 10px 26px var(--accent-soft), inset 0 1px rgba(255, 255, 255, 0.28);
-}
-
 html[data-theme] .status-pill {
   background: var(--surface-2);
 }
@@ -181,7 +174,6 @@ html[data-theme="gba"] {
   --accent-strong: #8ea6ff;
   --accent-soft: rgba(91, 124, 250, 0.16);
   --accent-contrast: #080c1a;
-  --brand-contrast: #080c1a;
   --rest: #9b6bff;
   --rest-soft: rgba(155, 107, 255, 0.16);
   --rest-glow: rgba(155, 107, 255, 0.28);
@@ -217,11 +209,6 @@ html[data-theme="gba"] .stage::after {
   background: linear-gradient(90deg, var(--accent) 0 16%, transparent 16% 84%, var(--rest) 84% 100%);
   box-shadow: none;
   pointer-events: none;
-}
-
-html[data-theme="gba"] .brand-mark {
-  background: linear-gradient(135deg, #3a56d4 0 48%, #6d3fc9 52% 100%);
-  box-shadow: 0 0 0 2px rgba(232, 239, 255, 0.18), 0 10px 26px rgba(91, 124, 250, 0.32);
 }
 
 html[data-theme="gba"] .timer-wrap::after {

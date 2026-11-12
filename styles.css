@@ -105,28 +105,12 @@ button:focus-visible {
   min-width: 0;
 }
 
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 46px;
-  height: 46px;
-  flex: none;
-  border-radius: 15px;
-  background: linear-gradient(160deg, #ff6459, #e52318 72%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 10px 26px rgba(255, 59, 48, 0.3), inset 0 1px rgba(255, 255, 255, 0.28);
-  font-size: 25px;
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -0.04em;
-}
-
-.brand-mark img {
+.brand-logo {
   display: block;
+  flex: none;
   width: auto;
-  height: 68%;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.28));
+  height: 41.5px;
+  color: var(--text);
 }
 
 .brand-text {
@@ -1065,11 +1049,8 @@ kbd {
     margin-bottom: 14px;
   }
 
-  .brand-mark {
-    width: 40px;
-    height: 40px;
-    border-radius: 13px;
-    font-size: 22px;
+  .brand-logo {
+    height: 37px;
   }
 
   .brand-name {
@@ -1184,6 +1165,10 @@ kbd {
   .btn-ghost {
     width: 52px;
     padding: 0;
+  }
+
+  .brand-logo {
+    height: 21px;
   }
 
   .brand-sub {

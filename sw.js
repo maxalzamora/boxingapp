@@ -1,5 +1,5 @@
 /* Jabber service worker — bump CACHE_NAME when cached assets change. */
-const CACHE_NAME = "jabber-v1";
+const CACHE_NAME = "jabber-v2";
 const ASSETS = [
   "./",
   "./index.html",
