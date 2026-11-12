@@ -1,20 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="bg" x1="64" y1="16" x2="448" y2="496" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#ff6a5f"/>
-      <stop offset="0.48" stop-color="#ff3b30"/>
-      <stop offset="1" stop-color="#d81b10"/>
+    <linearGradient id="bg" x1="48" y1="24" x2="464" y2="492" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#24305a"/>
+      <stop offset="0.5" stop-color="#11182b"/>
+      <stop offset="1" stop-color="#080c18"/>
     </linearGradient>
-    <radialGradient id="gloss" cx="0" cy="0" r="1" gradientTransform="translate(256 96) scale(290 230)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#ffffff" stop-opacity="0.24"/>
-      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(256 180) scale(280 230)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#5b7cfa" stop-opacity="0.55"/>
+      <stop offset="0.55" stop-color="#9b6bff" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#9b6bff" stop-opacity="0"/>
     </radialGradient>
-    <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%">
-      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#8f0c04" flood-opacity="0.45"/>
+    <linearGradient id="stripe" x1="0" y1="0" x2="512" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#5b7cfa"/>
+      <stop offset="0.45" stop-color="#5b7cfa" stop-opacity="0"/>
+      <stop offset="0.55" stop-color="#9b6bff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#9b6bff"/>
+    </linearGradient>
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="190%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#02050c" flood-opacity="0.55"/>
     </filter>
   </defs>
   <rect width="512" height="512" fill="url(#bg)"/>
-  <rect width="512" height="512" fill="url(#gloss)"/>
-  <rect x="1" y="1" width="510" height="510" fill="none" stroke="#ffffff" stroke-opacity="0.14" stroke-width="2"/>
-  <text x="256" y="391" text-anchor="middle" font-family="Open Sans, Arial, Helvetica, sans-serif" font-size="356" font-weight="800" letter-spacing="-18" fill="#ffffff" filter="url(#shadow)">6</text>
+  <rect width="512" height="512" fill="url(#glow)"/>
+  <rect width="512" height="8" fill="url(#stripe)" opacity="0.85"/>
+  <g transform="translate(136 106) scale(0.53742)" filter="url(#shadow)">
+    <path fill="#fff" d="M442.78,138.25C422.87,56.83,351.34,0,268.95,0h-99.44c-45.97,0-89.84,18.75-121.54,52.03l-3.76,3.94c-20.35,21.66-27.5,53.37-17.6,82.28.57.45,1.16.86,1.9,1.31h240.7c6.7,0,27.5-2.2,41.87-10.9,13.4-7.99,30.56-3.79,38.41,9.3,7.97,13.22,3.91,30.37-9.3,38.37-12.95,7.85-26.91,12.36-39.12,15.15,3.77,9.42,5.96,19.77,5.96,30.67,0,47.81-36.36,84.88-80.99,84.88h-58.57c-15.41,0-27.91-12.5-27.91-27.91s12.5-27.91,27.91-27.91h52.48c13.24,0,24-11.91,24-26.76,0-17.16-10.76-29.06-24-29.06H48.98C21.95,195.38,0,217.33,0,244.35v.6c-.15,35.91,12.95,71.97,37.67,104.23l23.55,30.67c6.51,8.45,14.07,16,22.52,22.4v16.41h279.11v-22.66c14.25-10.04,26.6-22.11,37.21-35.76l9.59-12.5c23.97-31.27,36.93-69.63,36.93-108.9v-62.82c0-10.31-.45-23.97-3.8-37.78"/>
+    <path fill="#fff" d="M83.73,474.49v55.82c0,15.41,12.5,27.91,27.91,27.91h223.29c15.41,0,27.91-12.5,27.91-27.91v-55.82H83.73Z"/>
+  </g>
+  <rect x="1" y="1" width="510" height="510" fill="none" stroke="#e8efff" stroke-opacity="0.1" stroke-width="2"/>
 </svg>

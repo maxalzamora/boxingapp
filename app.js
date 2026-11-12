@@ -1,4 +1,4 @@
-/* Six Count — audio-cued boxing rounds */
+/* Jabber — audio-cued boxing rounds */
 (() => {
   "use strict";
 
@@ -17,9 +17,9 @@
   const PREFS_KEY = "six-count-prefs-v1";
   const COPY = {
     en: {
-      title: "Six Count — Boxing Round Timer",
+      title: "Jabber — Boxing Round Timer",
       description:
-        "Six Count is a boxing round timer that calls out punch combinations while you train. 3 rounds of 3 minutes with 30 second rests.",
+        "Jabber is a boxing round timer that calls out punch combinations while you train. 3 rounds of 3 minutes with 30 second rests.",
       brandSub: "Boxing round timer",
       session: "Session",
       sessionMeta: "3 rounds · 3:00 work · 0:30 rest",
@@ -86,9 +86,9 @@
       finalThirtyVoice: "Final 30 seconds. All in!",
     },
     ca: {
-      title: "Six Count — Temporitzador de boxa",
+      title: "Jabber — Temporitzador de boxa",
       description:
-        "Six Count és un temporitzador de rondes de boxa que anuncia combinacions de cops mentre entrenes. 3 rondes de 3 minuts amb descansos de 30 segons.",
+        "Jabber és un temporitzador de rondes de boxa que anuncia combinacions de cops mentre entrenes. 3 rondes de 3 minuts amb descansos de 30 segons.",
       brandSub: "Temporitzador de boxa",
       session: "Sessió",
       sessionMeta: "3 rondes · 3:00 treball · 0:30 descans",
@@ -726,8 +726,10 @@
     const timeText = formatTime(remaining);
     if (el.timerTime.textContent !== timeText) el.timerTime.textContent = timeText;
 
-    const fraction = done ? 1 : local / phase.duration;
-    el.ringProgress.style.strokeDashoffset = String(Math.min(100, Math.max(0, fraction * 100)));
+    const progress = done ? 100 : Math.min(100, Math.max(0, (local / phase.duration) * 100));
+    // The ring and the inner fill both grow with elapsed time.
+    el.ringProgress.style.strokeDashoffset = String(100 - progress);
+    el.stage.style.setProperty("--phase-progress", `${progress}%`);
 
     renderTimeline(now, done);
     renderControls();

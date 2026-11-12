@@ -1,4 +1,4 @@
-# Six Count
+# Jabber
 
 A small boxing round timer that calls punch combinations out loud while you train.
 
@@ -46,11 +46,12 @@ Then visit <http://localhost:8000>. Serving over HTTP or HTTPS is recommended so
 ## How it is built
 
 - `index.html` — layout, metadata, and controls
-- `styles.css` — dark, responsive UI with safe-area support
+- `styles.css` — responsive UI with safe-area support
+- `theme.css` — Game Boy Advance-inspired blue/purple palette and effects
 - `app.js` — workout timeline, combo generator, speech, synthesized bell, fullscreen, and wake lock
 - `manifest.webmanifest` — home-screen app metadata
 - `sw.js` — offline cache
-- `icons/` — app and home-screen icons
+- `icons/` — logo, app, and home-screen icons
 
 Speech uses the browser's **Web Speech API** (`speechSynthesis`), so the voice depends on the voices installed on your device. If the selected language has no matching system voice, the browser falls back to its default voice. The bell is synthesized with the **Web Audio API**; there are no audio files or network requests.
 

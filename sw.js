@@ -1,11 +1,13 @@
-/* Six Count service worker — bump CACHE_NAME when cached assets change. */
-const CACHE_NAME = "six-count-v3";
+/* Jabber service worker — bump CACHE_NAME when cached assets change. */
+const CACHE_NAME = "jabber-v1";
 const ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
+  "./theme.css",
   "./app.js",
   "./manifest.webmanifest",
+  "./icons/logo.svg",
   "./icons/icon.svg",
   "./icons/icon-192.png",
   "./icons/icon-512.png",

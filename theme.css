@@ -1,0 +1,238 @@
+/* Game Boy Advance theme for Jabber. Applied with html[data-theme="gba"]. */
+
+html[data-theme] body {
+  background:
+    radial-gradient(900px 560px at 88% -12%, var(--ambient-a), transparent 62%),
+    radial-gradient(760px 520px at -8% 112%, var(--ambient-b), transparent 62%),
+    var(--bg);
+}
+
+html[data-theme] .stage {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01) 46%, transparent 100%),
+    var(--surface);
+  border-color: var(--line);
+  box-shadow: var(--shadow);
+}
+
+html[data-theme] .card {
+  border-radius: calc(var(--radius) - 6px);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent),
+    var(--surface);
+  border-color: var(--line);
+}
+
+html[data-theme] .brand-mark {
+  color: var(--brand-contrast, #fff);
+  background: linear-gradient(160deg, var(--accent-strong), var(--accent) 72%);
+  border-color: var(--line-strong);
+  box-shadow: 0 10px 26px var(--accent-soft), inset 0 1px rgba(255, 255, 255, 0.28);
+}
+
+html[data-theme] .status-pill {
+  background: var(--surface-2);
+}
+
+html[data-theme] .status-pill[data-status="running"] {
+  color: var(--accent-strong);
+  border-color: var(--accent-soft);
+  background: var(--accent-soft);
+}
+
+html[data-theme] .status-pill[data-status="running"] .dot {
+  background: var(--accent);
+  animation: themeLivePulse 1.6s ease-out infinite;
+}
+
+html[data-theme] .status-pill[data-status="paused"] {
+  color: var(--gold);
+  border-color: var(--gold-soft);
+  background: var(--gold-soft);
+}
+
+html[data-theme] .status-pill[data-status="paused"] .dot {
+  background: var(--gold);
+}
+
+html[data-theme] .status-pill[data-status="done"] {
+  color: var(--rest);
+  border-color: var(--rest-soft);
+  background: var(--rest-soft);
+}
+
+html[data-theme] .status-pill[data-status="done"] .dot {
+  background: var(--rest);
+}
+
+html[data-theme] .icon-btn {
+  background: var(--surface-2);
+}
+
+html[data-theme] .icon-btn[aria-pressed="true"] {
+  color: var(--accent-strong);
+  border-color: var(--accent-soft);
+  background: var(--accent-soft);
+}
+
+html[data-theme] .btn-primary {
+  color: var(--accent-contrast);
+  background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+  border-color: var(--line-strong);
+  box-shadow: 0 14px 32px var(--accent-soft), inset 0 1px rgba(255, 255, 255, 0.25);
+}
+
+html[data-theme] .btn-primary.is-pause {
+  color: var(--text);
+  background: linear-gradient(180deg, var(--surface-2), var(--surface));
+  border-color: var(--line-strong);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28), inset 0 1px var(--line);
+}
+
+html[data-theme] .btn-primary.is-done {
+  color: #1b1508;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--gold) 78%, white), var(--gold));
+  border-color: var(--line-strong);
+  box-shadow: 0 14px 32px var(--gold-soft), inset 0 1px rgba(255, 255, 255, 0.4);
+}
+
+html[data-theme] .btn-ghost {
+  color: var(--text);
+  background: var(--surface-2);
+  border-color: var(--line);
+}
+
+html[data-theme] .segmented {
+  background: color-mix(in srgb, var(--surface-2) 70%, transparent);
+}
+
+html[data-theme] .segmented button[aria-pressed="true"] {
+  color: var(--accent-contrast);
+  background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+  box-shadow: 0 6px 16px var(--accent-soft);
+}
+
+html[data-theme] .switch {
+  background: var(--line-strong);
+}
+
+html[data-theme] .toggle[aria-checked="true"] .switch {
+  background: linear-gradient(180deg, var(--accent-strong), var(--accent));
+}
+
+html[data-theme] .chip {
+  background: var(--surface-2);
+  border-color: var(--line-strong);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18), inset 0 1px var(--line);
+}
+
+html[data-theme] .stage[data-phase="rest"] .chip {
+  border-color: var(--rest-soft);
+  color: var(--rest);
+}
+
+html[data-theme] .tl-seg {
+  background: var(--line);
+}
+
+html[data-theme] .legend .num {
+  background: var(--surface-2);
+  border-color: var(--line-strong);
+}
+
+html[data-theme] .stage[data-phase="rest"] {
+  --phase: var(--rest);
+  --phase-glow: var(--rest-glow);
+  --phase-soft: var(--rest-soft);
+}
+
+html[data-theme] .stage[data-phase="done"] {
+  --phase: var(--gold);
+  --phase-glow: var(--gold-glow);
+  --phase-soft: var(--gold-soft);
+}
+
+html[data-theme] .ring-track {
+  stroke: var(--ring-track);
+}
+
+html[data-theme] .ring-inner {
+  stroke: var(--ring-inner);
+}
+
+@keyframes themeLivePulse {
+  0% { box-shadow: 0 0 0 0 var(--accent-soft); }
+  70% { box-shadow: 0 0 0 7px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+/* ---------- Game Boy Advance: glacier blue, purple shoulders ---------- */
+
+html[data-theme="gba"] {
+  --bg: #080c18;
+  --surface: #11182b;
+  --surface-2: #1c2742;
+  --line: rgba(150, 180, 255, 0.14);
+  --line-strong: rgba(150, 180, 255, 0.28);
+  --text: #e8efff;
+  --muted: #a3b2d4;
+  --faint: #7483a8;
+  --accent: #5b7cfa;
+  --accent-strong: #8ea6ff;
+  --accent-soft: rgba(91, 124, 250, 0.16);
+  --accent-contrast: #080c1a;
+  --brand-contrast: #080c1a;
+  --rest: #9b6bff;
+  --rest-soft: rgba(155, 107, 255, 0.16);
+  --rest-glow: rgba(155, 107, 255, 0.28);
+  --gold: #ffd166;
+  --gold-soft: rgba(255, 209, 102, 0.16);
+  --gold-glow: rgba(255, 209, 102, 0.24);
+  --phase-glow: rgba(91, 124, 250, 0.3);
+  --split-text: #e8efff;
+  --split-text-filled: #080c1a;
+  --ring-track: rgba(150, 180, 255, 0.18);
+  --ring-inner: rgba(150, 180, 255, 0.09);
+  --radius: 26px;
+  --shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  --ambient-a: rgba(91, 124, 250, 0.16);
+  --ambient-b: rgba(155, 107, 255, 0.1);
+}
+
+html[data-theme="gba"] .stage,
+html[data-theme="gba"] .card {
+  background:
+    linear-gradient(160deg, rgba(142, 166, 255, 0.1), rgba(155, 107, 255, 0.06) 45%, transparent 70%),
+    var(--surface);
+  border-color: rgba(142, 166, 255, 0.22);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), inset 0 1px rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="gba"] .stage::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: linear-gradient(90deg, var(--accent) 0 16%, transparent 16% 84%, var(--rest) 84% 100%);
+  box-shadow: none;
+  pointer-events: none;
+}
+
+html[data-theme="gba"] .brand-mark {
+  background: linear-gradient(135deg, #3a56d4 0 48%, #6d3fc9 52% 100%);
+  box-shadow: 0 0 0 2px rgba(232, 239, 255, 0.18), 0 10px 26px rgba(91, 124, 250, 0.32);
+}
+
+html[data-theme="gba"] .timer-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  clip-path: circle(41.5% at 50% 50%);
+  -webkit-clip-path: circle(41.5% at 50% 50%);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), transparent 42%);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
